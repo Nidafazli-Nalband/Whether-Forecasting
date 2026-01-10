@@ -25,8 +25,7 @@ A beautiful, real-time weather forecasting web application built with vanilla Ja
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/WindVision.git
-cd WindVision
+git clone https://github.com/Nidafazli-Nalband/Whether-Forecasting.git
 ```
 
 2. Open `index.html` in your browser using Live Server or by double-clicking the file
@@ -104,14 +103,7 @@ To use your own API key:
 - No data storage on your device
 - HTTPS recommended for production
 
-## License
 
-MIT License - Feel free to use and modify
 
-## Contributing
 
-Contributions welcome! Open an issue or submit a pull request.
 
----
-
-**Made with ❤️ for weather enthusiasts**
