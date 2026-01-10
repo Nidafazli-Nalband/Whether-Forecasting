@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Weather</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="header-content">
+    <h1 class="app-title">☁️ Smart Weather</h1>
+    <p class="app-subtitle">Real-time weather forecasting • Try: New York, London, Tokyo</p>
+  </div>
+  <div class="search-box">
+    <input type="text" id="cityInput" placeholder="Search for a city..." aria-label="Search city">
+    <button id="searchBtn" title="Search">🔍</button>
+    <button id="locBtn" title="Use current location">📍 Current Location</button>
+  </div>
+</header>
+
+<main class="dashboard">
+
+  <div class="top-row">
+    <section class="card main-weather" id="currentWeather">
+      <div class="weather-header">
+        <h2 id="cityName">Current Weather</h2>
+        <span class="location-label">Current Location</span>
+      </div>
+      <div class="weather-main">
+        <p class="temp" id="tempDisplay">--°C</p>
+        <p class="desc" id="descDisplay">--</p>
+      </div>
+      <div class="weather-details">
+        <p><strong>Feels like:</strong> <span id="feelsLike">--°C</span></p>
+      </div>
+    </section>
+
+    <section class="card highlights">
+      <h3>📊 Highlights</h3>
+      <div class="grid">
+        <div class="highlight-item">
+          <span class="label">💨 Wind</span>
+          <span class="value" id="windVal">-- m/s</span>
+        </div>
+        <div class="highlight-item">
+          <span class="label">💧 Humidity</span>
+          <span class="value" id="humidVal">--%</span>
+        </div>
+        <div class="highlight-item">
+          <span class="label">👁️ Visibility</span>
+          <span class="value" id="visVal">-- km</span>
+        </div>
+        <div class="highlight-item">
+          <span class="label">🌬️ Pressure</span>
+          <span class="value" id="pressVal">-- hPa</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="card forecast">
+    <h3>📅 5-Day Forecast</h3>
+    <div class="forecast-row" id="forecast"></div>
+  </section>
+
+  <div id="errorMessage" class="error-message"></div>
+
+</main>
+
+</body>
+</html>

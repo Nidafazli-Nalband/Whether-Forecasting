@@ -1,0 +1,464 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+body {
+  background: linear-gradient(135deg, #c0d4ff 0%, #d4b5ff 50%, #e0c3ff 100%);
+  color: #222;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 30px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-title {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.app-subtitle {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+  font-weight: 500;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-box input {
+  padding: 12px 16px;
+  width: 320px;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.search-box input::placeholder {
+  color: #bbb;
+  font-weight: 500;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.search-box button {
+  padding: 10px 14px;
+  border: none;
+  background: #667eea;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+}
+
+.search-box button:hover {
+  background: #764ba2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+#locBtn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  position: relative;
+  font-size: 13px;
+  padding: 10px 16px;
+  min-width: auto;
+  width: auto;
+}
+
+#locBtn:hover {
+  background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+.search-box button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dashboard {
+  padding: 25px 30px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dashboard::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard::-webkit-scrollbar-thumb {
+  background: rgba(102, 126, 234, 0.3);
+  border-radius: 3px;
+}
+
+.dashboard::-webkit-scrollbar-thumb:hover {
+  background: rgba(102, 126, 234, 0.5);
+}
+
+.top-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+  margin-bottom: 18px;
+  color: #333;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.main-weather {
+  grid-column: 1;
+}
+
+.highlights {
+  grid-column: 2;
+}
+
+.weather-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.weather-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  flex: 1;
+}
+
+.location-label {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.weather-main {
+  text-align: center;
+  margin: 18px 0;
+}
+
+.temp {
+  font-size: 4.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 5px 0;
+  line-height: 1;
+}
+
+.desc {
+  font-size: 15px;
+  color: #777;
+  text-transform: capitalize;
+  margin: 10px 0;
+  font-weight: 600;
+}
+
+.weather-details {
+  text-align: center;
+  padding-top: 12px;
+  border-top: 2px solid #f0f0f0;
+  color: #666;
+  font-size: 14px;
+}
+
+.weather-details strong {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.highlights .grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.highlight-item {
+  background: linear-gradient(135deg, #f5f7ff 0%, #f0e6ff 100%);
+  padding: 16px;
+  border-radius: 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+}
+
+.highlight-item:hover {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #667eea15, #764ba215);
+  transform: translateY(-2px);
+}
+
+.highlight-item .label {
+  font-size: 13px;
+  color: #777;
+  font-weight: 600;
+}
+
+.highlight-item .value {
+  font-weight: 800;
+  font-size: 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.forecast {
+  width: 100%;
+}
+
+.forecast-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  overflow: visible;
+}
+
+.forecast-card {
+  background: linear-gradient(135deg, #f5f7ff 0%, #f0e6ff 100%);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.forecast-card:hover {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #667eea20, #764ba220);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+}
+
+.forecast-date {
+  font-size: 12px;
+  font-weight: 700;
+  color: #667eea;
+  letter-spacing: 0.5px;
+}
+
+.forecast-icon {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.forecast-temp {
+  font-size: 17px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.forecast-condition {
+  font-size: 11px;
+  color: #888;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.error-message {
+  background: linear-gradient(135deg, #ff6b6b, #ff8c8c);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  margin: 0;
+  text-align: center;
+  display: none;
+  animation: slideIn 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.error-message p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.error-message:not(:empty) {
+  display: block;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .search-box input {
+    width: 280px;
+  }
+
+  .dashboard {
+    padding: 18px 20px;
+  }
+
+  .top-row {
+    grid-template-columns: 1fr;
+  }
+
+  .main-weather {
+    grid-column: 1;
+  }
+
+  .highlights {
+    grid-column: 1;
+  }
+
+  .forecast-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 15px;
+  }
+
+  .header-content {
+    width: 100%;
+  }
+
+  .app-title {
+    font-size: 24px;
+  }
+
+  .search-box {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .search-box input {
+    width: 100%;
+    flex: 1;
+  }
+
+  .search-box button {
+    min-width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .dashboard {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .temp {
+    font-size: 3.5rem;
+  }
+
+  .highlights .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .forecast-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
