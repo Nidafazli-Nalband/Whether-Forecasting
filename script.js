@@ -12,10 +12,13 @@ function KtoC(k) {
 
 function showError(message) {
   errorDiv.innerHTML = `<p>⚠️ ${message}</p>`;
+  // Ensure the main weather card is visible on smaller screens
+  const mainWeather = document.getElementById("currentWeather");
+  if (mainWeather) mainWeather.scrollIntoView({ behavior: "smooth", block: "start" });
   setTimeout(() => {
     errorDiv.innerHTML = "";
   }, 5000);
-}
+} 
 
 function updateWeatherDisplay(city, country, data) {
   const cur = data.list[0];
@@ -24,8 +27,10 @@ function updateWeatherDisplay(city, country, data) {
   const weather = cur.weather[0];
   const visibility = (cur.visibility / 1000).toFixed(1);
 
-  // Update city name as heading (big on the left)
-  const cityDisplay = country ? `${city}, ${country}` : `${city}`;
+  // Prefer API-reported city name (matches forecast lat/lon); fall back to reverse-geocoded/passed city
+  const apiCity = (data.city && data.city.name) ? data.city.name : city;
+  const apiCountry = (data.city && data.city.country) ? data.city.country : country;
+  const cityDisplay = apiCountry ? `${apiCity}, ${apiCountry}` : `${apiCity}`;
   document.getElementById("cityName").textContent = cityDisplay;
 
   // Update main weather
@@ -129,14 +134,49 @@ cityInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") searchBtn.click();
 });
 
-locBtn.onclick = () => {
-  locBtn.disabled = true;
-  locBtn.style.opacity = "0.6";
+// Try navigator geolocation first, and fall back to IP-based lookup if needed
+function fetchIPLocationAndWeather() {
+  return fetch('https://ipapi.co/json/')
+    .then(res => {
+      if (!res.ok) throw new Error('IP lookup failed');
+      return res.json();
+    })
+    .then(data => {
+      const lat = data.latitude || data.lat;
+      const lon = data.longitude || data.lon;
+      const city = data.city || "Your Location";
+      const country = data.country_code || data.country || "";
+      if (lat && lon) {
+        fetchWeather(lat, lon, city, country);
+        return true;
+      } else {
+        throw new Error('IP location not found');
+      }
+    });
+}
+
+function getAndFetchLocation(auto = false) {
+  if (!navigator.geolocation) {
+    if (auto) {
+      fetchIPLocationAndWeather().catch(() => showError("Could not determine your location automatically"));
+    } else {
+      showError("Geolocation is not supported by your browser");
+      locBtn.disabled = false;
+      locBtn.style.opacity = "1";
+    }
+    return;
+  }
+
+  if (!auto) {
+    locBtn.disabled = true;
+    locBtn.style.opacity = "0.6";
+  }
+
   navigator.geolocation.getCurrentPosition(
     pos => {
       const lat = pos.coords.latitude;
       const lon = pos.coords.longitude;
-      
+
       // Reverse geocoding to get city and country name
       fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`)
         .then(res => res.json())
@@ -147,27 +187,40 @@ locBtn.onclick = () => {
           } else {
             fetchWeather(lat, lon, "Your Location", "");
           }
-          locBtn.disabled = false;
-          locBtn.style.opacity = "1";
         })
         .catch(() => {
           fetchWeather(lat, lon, "Your Location", "");
-          locBtn.disabled = false;
-          locBtn.style.opacity = "1";
+        })
+        .finally(() => {
+          if (!auto) {
+            locBtn.disabled = false;
+            locBtn.style.opacity = "1";
+          }
         });
     },
     err => {
-      showError("📍 Location access denied. Please search for a city instead.");
-      locBtn.disabled = false;
-      locBtn.style.opacity = "1";
+      if (auto) {
+        // If automatic attempt failed (permission denied or unavailable), try IP fallback
+        fetchIPLocationAndWeather().catch(() => showError("Could not determine your location automatically"));
+      } else {
+        // User denied or geolocation failed during a manual click — try IP fallback automatically
+        fetchIPLocationAndWeather()
+          .catch(() => showError("📍 Location access denied. Please search for a city instead."))
+          .finally(() => {
+            locBtn.disabled = false;
+            locBtn.style.opacity = "1";
+          });
+      }
     },
     { enableHighAccuracy: false, timeout: 5000, maximumAge: 0 }
   );
-};
+}
 
-// Load default location on page load - DISABLED to prevent permission prompt on refresh
-// Only ask for location when user clicks the location button
+// Use the shared function when the user clicks the location button
+locBtn.onclick = () => getAndFetchLocation(false);
+
+// On page load, attempt to get location and show weather automatically (falls back to IP-based lookup)
 window.addEventListener('load', () => {
-  // Show default state instead of asking for location
-  console.log("Page loaded. Location permission will only be requested when you click the 📍 button.");
+  console.log("Attempting to determine your location to show local weather...");
+  getAndFetchLocation(true);
 });
