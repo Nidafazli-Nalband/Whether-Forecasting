@@ -105,9 +105,6 @@ To use your own API key:
 - No data storage on your device
 - HTTPS recommended for production
 
-## License
-
-MIT License - Feel free to use and modify
 
 ## Contributing
 
