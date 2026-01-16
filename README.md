@@ -4,8 +4,7 @@ A beautiful, real-time weather forecasting web application built with vanilla Ja
 
 ## Screenshots
 
-![Smart Weather Dashboard](./dashboard.png)
-![Smart Weather Dashboard](./photo.png)
+![Smart Weather Dashboard](./dashboard.png)
 
 ## Features
 
